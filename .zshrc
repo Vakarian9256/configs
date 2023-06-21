@@ -105,31 +105,8 @@ alias gd="ydiff"
 alias glr="gl --recurse-submodules=yes"
 alias gmo="git merge origin "
 
-alias -s md=typora
 
 
-
-
-sshfsp () {
-    if [[ $# -lt 2 ]]; then
-        echo "Usage: $0 /path/to/local remote:/path/to/remote [-o whatever]"
-        return 1
-    fi
-
-    local LOCAL_MOUNT=$(realpath "$1")
-    local REMOTE=${2%:*}
-    local REMOTE_MOUNT=${2#${REMOTE}:}
-    
-    if [ -z "$REMOTE" -o -z "$REMOTE_MOUNT" ]; then
-        echo "Bad remote format. Remote host:" "$REMOTE" "Remote mount:" "$REMOTE_MOUNT"
-        return 1
-    fi
-
-    shift 2
-
-    local SSHFS_OPTS="slave,idmap=user,uid=\$UID,gid=\$UID,default_permissions,follow_symlinks,allow_other"
-    setsid dpipe /usr/libexec/sftp-server = ssh "$REMOTE" sshfs ":$LOCAL_MOUNT" "$REMOTE_MOUNT" -o "$SSHFS_OPTS" "$@"
-}
 
 
 ..() {
